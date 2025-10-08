@@ -1,19 +1,15 @@
 Mini Project AB — Comparing OMOP and MIMIC Prescription Data
 
-Overview
+Overview:
 
 This project explores how medication exposure data differ between two widely used clinical informatics frameworks:
 
-OMOP (Common Data Model): an observational research standard used to harmonize electronic health record (EHR) and claims data.
-
-MIMIC-III: a publicly available critical-care database from Beth Israel Deaconess Medical Center containing de-identified ICU EHR data.
+I. OMOP (Common Data Model): an observational research standard used to harmonize electronic health record (EHR) and claims data.
+II. MIMIC-III: a publicly available critical-care database from Beth Israel Deaconess Medical Center containing de-identified ICU EHR data.
 
 By analyzing prescription counts, source codes, and drug type classifications, the study evaluates how medication events are structured and recorded across these two environments — a core issue in real-world data interoperability and reproducibility.
 
-Data and Methods
-
-The analysis was written in R Markdown and rendered as Mini_Project_AB.html.
-Key steps and tools include:
+Data and Methods:
 
 | Step                    | Purpose                                                              | Tools / Packages                          |
 | ----------------------- | -------------------------------------------------------------------- | ----------------------------------------- |
@@ -25,42 +21,29 @@ Key steps and tools include:
 | Concept mapping         | Join `drug_exposure` to `concept` tables to derive `drug_type_name`  | `left_join()` on `concept_id`             |
 | Categorical counts      | Summarize and visualize distribution of drug types                   | `group_by()`, `summarize()`, `geom_bar()` |
 
-Findings
-
+Findings:
 Higher prescription counts in MIMIC: all summary statistics (min, median, mean, max) were larger for MIMIC than OMOP, suggesting more granular or inclusive drug exposure capture
-
-Mini_Project_AB
-
 .
 
 Normalization effects: after log transformation, inter-model differences decreased, implying differing data-scale conventions rather than true volume differences
-
-Mini_Project_AB
-
 .
 
 Source diversity: OMOP showed 1,100 + unique drug_source_value entries, while MIMIC exhibited fewer but broader DRUG_TYPE categories (e.g., BASE, MAIN, ADDITIVE), highlighting schema design contrasts
-
-Mini_Project_AB
-
 .
 
 Vocabulary richness: qualitative inspection of drug names revealed MIMIC’s coverage of compounded or ophthalmic treatments absent from OMOP, possibly due to differing data pipelines
-
-Mini_Project_AB
-
 .
 
-Clinical Informatics Relevance
+Clinical Informatics Relevance:
 
 This comparison reflects practical challenges in ETL and standardization of medication data across systems.
 It demonstrates how:
 
-Prescription event representation depends on vocabulary mappings and concept IDs.
+ * Prescription event representation depends on vocabulary mappings and concept IDs.
 
-Schema transformation (OMOP conversion) can affect medication counts and source diversity.
+* Schema transformation (OMOP conversion) can affect medication counts and source diversity.
 
-Log-based normalization and metadata exploration aid cross-model quality checks.
+* Log-based normalization and metadata exploration aid cross-model quality checks.
 
 Such work is directly applicable to data governance, model validation, and interoperability assessments in clinical informatics pipelines.
 
@@ -68,13 +51,14 @@ Deliverables
 
 Mini_Project_AB.html — Rendered R Markdown report with code, output, and figures.
 
-Mini_Project_AB.Rmd (if present) — Source file for reproducibility.
-
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Mini Project 2 — Hypertension Phenotyping Using MIMIC and BigQuery
-Overview
 
+
+Mini Project 2 — Hypertension Phenotyping Using MIMIC and BigQuery
+
+Overview:
 This project develops and evaluates a method to identify hypertensive patients by combining structured EHR data from MIMIC-III with a manually curated gold standard hosted on Google BigQuery. It demonstrates how prescription data, billing codes, and charted blood pressure measurements can be integrated to define clinical phenotypes — a core task in clinical informatics.
 
 Clinical Context:
@@ -85,7 +69,7 @@ Systolic BP ≥ 140 mmHg on ≥ 2 occasions
 &
 Diastolic BP ≥ 90 mmHg on ≥ 2 occasions
 
-Accurate hypertension phenotyping is crucial for both clinical research and population health analytics, as it determines cohort inclusion, prevalence estimates, and treatment-outcome relationships.
+Accurate hypertension phenotyping is important for both clinical research and population health analytics, as it determines cohort inclusion, prevalence estimates, and treatment-outcome relationships.
 
 Data Sources and Methods:
 
@@ -109,7 +93,7 @@ Merged prescription data from D_ANTIHYPERTENSIVES to test whether drug exposure 
 
 Computed sensitivity, specificity, PPV, and NPV for each medication (e.g., atenolol, clonidine, captopril).
 
-Findings
+Findings:
 
 Atenolol and Clonidine emerged as the most specific predictors of hypertension (specificity = 1.0), though based on small sample sizes.
 
@@ -119,11 +103,9 @@ The combined approach (medications + BP measurements) yielded a more accurate ph
 
 Approximately 63 of 99 patients were labeled hypertensive, confirming consistency between MIMIC-derived features and the gold-standard dataset
 
-AB_mini_project_2
-
 .
 
-Clinical Informatics Relevance
+Clinical Informatics Relevance:
 
 This project illustrates how multi-source EHR integration (billing codes, vital signs, and prescriptions) can improve algorithmic phenotyping for chronic diseases.
 It models the practical workflow of:
@@ -136,29 +118,29 @@ Performing model evaluation to validate operational definitions of disease
 
 These methods align with best practices in clinical data warehousing, phenotype validation, and RWD curation — foundational to informatics-driven quality improvement and population health research.
 
-Deliverables
+Deliverables:
 
 AB_mini_project_2.html: Rendered R Markdown report
 
-Source code (R Markdown): Demonstrates reproducible analytics using bigrquery, dplyr, and caret
-
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Mini Project 3 — Diabetes Complications Detection from Clinical Notes
-Overview
+
+Overview:
 
 This project applies natural language processing (NLP) methods to identify diabetes-related complications — neuropathy, retinopathy, and nephropathy — within unstructured clinical text (history and physical, operative notes, discharge summaries).
 The dataset was hosted on Google BigQuery (course4_data.diabetes_notes), and all analysis was conducted using R and bigrquery for federated querying.
 
-Clinical Context
+Clinical Context:
 
 Patients with diabetes often develop microvascular complications that may appear in narrative sections of clinical documentation rather than structured EHR fields. Extracting these complications supports:
 
-Automated cohort identification
+- Automated cohort identification
 
-Population-level complication surveillance
+- Population-level complication surveillance
 
-Improved phenotype completeness for data warehouses
+- Improved phenotype completeness for data warehouses
 
 Methods:
 
@@ -186,7 +168,7 @@ Total identified cases: 28 out of ~150 analyzed notes contained explicit complic
 
 High recall but low precision patterns imply that many false positives arose from negations (e.g., “no evidence of neuropathy”) or irrelevant contexts — a common issue in unstructured note mining.
 
-Discussion
+Discussion:
 
 This project demonstrates the transition from structured to unstructured data analytics in clinical informatics.
 Key insights:
@@ -213,9 +195,11 @@ Deliverables:
 
 AB_mini_prj_3.html — Rendered report with code, tables, and confusion-matrix results.
 
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Mini Project 4 — Mortality Prediction in ICU Patients Using MIMIC-III
+
 Overview
 
 This project develops a predictive model for in-hospital mortality among ICU patients, using structured data from the MIMIC-III clinical database.
@@ -233,7 +217,7 @@ Decision support and benchmarking for data-driven clinical care
 
 MIMIC-III provides rich ICU data (vitals, admissions, outcomes) to simulate a real-world predictive modeling task within a governed research environment.
 
-Methods
+Methods:
 
 | Step                    | Description                                                                                                                  | Tools / Packages            |
 | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
@@ -245,11 +229,9 @@ Methods
 | **Model validation**    | Assessed discrimination using training/test split and **AUC (Area Under the Curve)** metrics                                 | `caret`, ROC curves         |
 | **Data auditing**       | Checked for missing (`NA`), infinite (`Inf`), and inconsistent values; excluded incomplete records                           | `is.na()`, `filter()`       |
 
-Results
+Results:
 
 The model achieved an AUC of ~0.70 on the training set and ~0.49 on the test set, suggesting moderate internal discrimination but poor generalizability
-
-AB_mini_proj_4
 
 .
 
@@ -269,8 +251,6 @@ Cohort definition (ICU deaths only) narrows clinical scope, potentially excludin
 
 Evaluating socio-demographic variables (race, insurance, ethnicity) can uncover health disparities and algorithmic bias
 
-AB_mini_proj_4
-
 .
 
 Clinical Informatics Relevance
@@ -288,6 +268,4 @@ Performs model audit and interprets metrics for decision-support reliability.
 Deliverables
 
 AB_mini_proj_4.html: Rendered R Markdown report
-
-R source code: full pipeline from data extraction to AUC evaluation
 
